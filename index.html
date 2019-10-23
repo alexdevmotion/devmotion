@@ -10,23 +10,42 @@
             height: 100%;
         }
 
-        .logo-wrapper {
+        body {
+            font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+        }
+
+        .wrapper {
             position: relative;
             height: 100%;
         }
-        .logo {
+        .centered {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .logo {
+            padding-bottom: 1rem;
         }
     </style>
 </head>
 <body>
 
-<div class="logo-wrapper">
-    <img class="logo" src="assets/img/logo_cleanblue_dark_250.png">
+<div class="wrapper">
+
+    <div class="centered">
+        <img class="logo" src="assets/img/logo_cleanblue_dark_250.png">
+        <p class="powered-by">
+            Powered by <a href="https://constantin.al" target="_blank">Alexandru Constantin</a>
+        </p>
+    </div>
+
+
+
 </div>
+
+
 
 </body>
 </html>
