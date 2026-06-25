@@ -1,56 +1,307 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>DevMotion</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>DevMotion — Development in motion</title>
+    <meta
+      name="description"
+      content="DevMotion — a small software studio by Alex Constantin. Development in motion."
+    />
+    <meta name="author" content="Alex Constantin" />
+    <meta name="theme-color" content="#faf9f6" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1a1814" media="(prefers-color-scheme: dark)" />
+    <link rel="icon" href="assets/img/logo_cleanblue_norectangle.png" />
 
-    <style type="text/css">
-        html, body {
-            margin: 0;
-            height: 100%;
-        }
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="DevMotion — Development in motion" />
+    <meta property="og:url" content="https://devmotion.ro" />
+    <meta
+      property="og:description"
+      content="A small software studio by Alex Constantin."
+    />
 
-        body {
-            font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
-        }
+    <style>
+      /* ---- self-hosted type ---- */
+      @font-face {
+        font-family: "Fraunces";
+        src: url("assets/fonts/fraunces.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Fraunces";
+        src: url("assets/fonts/fraunces-italic.woff2") format("woff2");
+        font-weight: 100 900;
+        font-style: italic;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("assets/fonts/space-mono.woff2") format("woff2");
+        font-weight: 400;
+        font-style: normal;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: "Space Mono";
+        src: url("assets/fonts/space-mono-700.woff2") format("woff2");
+        font-weight: 700;
+        font-style: normal;
+        font-display: swap;
+      }
 
-        .wrapper {
-            position: relative;
-            height: 100%;
+      /* ---- tokens (mirrors constantin.al "present") ---- */
+      :root {
+        color-scheme: light;
+        --serif: "Fraunces", Georgia, "Times New Roman", serif;
+        --mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+        --paper: oklch(0.98 0.008 85);
+        --ink: oklch(0.235 0.012 60);
+        --ink-soft: oklch(0.46 0.014 58);
+        --ink-faint: oklch(0.63 0.014 60);
+        --line: oklch(0.235 0.012 60 / 0.15);
+        --accent-ink: oklch(0.46 0.15 45);
+        --selection: oklch(0.55 0.15 48 / 0.18);
+        --edge: clamp(1.25rem, 0.8rem + 3vw, 4.5rem);
+        --gap-l: clamp(1.5rem, 1rem + 2vw, 3rem);
+        --step--1: clamp(0.78rem, 0.74rem + 0.18vw, 0.88rem);
+        --step-0: clamp(0.95rem, 0.9rem + 0.25vw, 1.1rem);
+        --step-1: clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+        --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          color-scheme: dark;
+          --paper: oklch(0.175 0.009 70);
+          --ink: oklch(0.92 0.012 85);
+          --ink-soft: oklch(0.72 0.014 80);
+          --ink-faint: oklch(0.55 0.014 78);
+          --line: oklch(0.92 0.012 85 / 0.14);
+          --accent-ink: oklch(0.8 0.12 62);
+          --selection: oklch(0.74 0.13 60 / 0.22);
         }
-        .centered {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+      }
+      html {
+        -webkit-text-size-adjust: 100%;
+      }
+      body {
+        min-height: 100svh;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--serif);
+        font-optical-sizing: auto;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+      ::selection {
+        background: var(--selection);
+      }
+      img {
+        display: block;
+        max-width: 100%;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      .mono {
+        font-family: var(--mono);
+        letter-spacing: 0.04em;
+      }
+
+      .page {
+        min-height: 100svh;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        padding: var(--edge);
+        gap: var(--gap-l);
+      }
+
+      .topbar,
+      .baseline {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        font-size: var(--step--1);
+        font-family: var(--mono);
+      }
+      .topbar .brand {
+        color: var(--ink);
+      }
+      .topbar .est {
+        color: var(--ink-faint);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+      .baseline {
+        color: var(--ink-faint);
+      }
+      .baseline .dim {
+        opacity: 0.75;
+        letter-spacing: 0.08em;
+      }
+
+      .stage {
+        display: grid;
+        place-items: center;
+        text-align: center;
+        gap: clamp(2rem, 5vh, 3.5rem);
+      }
+
+      /* ---- logo (light/dark swap) ---- */
+      .logo {
+        width: clamp(15rem, 42vw, 30rem);
+        height: auto;
+        will-change: transform;
+      }
+      .logo--dark {
+        display: none;
+      }
+      @media (prefers-color-scheme: dark) {
+        .logo--light {
+          display: none;
         }
-        .logo {
-            padding-bottom: 1rem;
+        .logo--dark {
+          display: block;
         }
+      }
+
+      .tagline {
+        font-style: italic;
+        font-weight: 340;
+        font-size: var(--step-1);
+        color: var(--ink-soft);
+        letter-spacing: -0.01em;
+      }
+
+      .visit {
+        font-family: var(--mono);
+        font-size: var(--step-0);
+        color: var(--accent-ink);
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.5em;
+      }
+      .visit .who {
+        color: var(--ink-soft);
+      }
+      .visit .site {
+        position: relative;
+      }
+      .visit .site::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -0.18em;
+        height: 1px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.5s var(--ease-out);
+      }
+      .visit:hover .site::after,
+      .visit:focus-visible .site::after {
+        transform: scaleX(1);
+      }
+      .visit .arrow {
+        display: inline-block;
+        transition: transform 0.5s var(--ease-out);
+      }
+      .visit:hover .arrow,
+      .visit:focus-visible .arrow {
+        transform: translateX(0.35em);
+      }
+
+      /* ---- staggered entrance + a gentle, perpetual "motion" ---- */
+      .reveal {
+        opacity: 0;
+        transform: translateY(0.8em);
+        animation: rise 0.9s var(--ease-out) forwards;
+        animation-delay: var(--d, 0s);
+      }
+      @keyframes rise {
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .float {
+        animation:
+          rise 1s var(--ease-out) 0.15s both,
+          drift 7s ease-in-out 1.2s infinite;
+      }
+      @keyframes drift {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-0.5rem);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.001ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.001ms !important;
+        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <span class="brand reveal" style="--d: 0.05s">devmotion.ro</span>
+        <span class="est reveal" style="--d: 0.05s">Est. MMXI</span>
+      </header>
 
-<div class="wrapper">
+      <main class="stage">
+        <img
+          class="logo logo--light float"
+          src="assets/img/logo_wordmark_light.png"
+          alt="DevMotion"
+          width="462"
+          height="50"
+        />
+        <img
+          class="logo logo--dark float"
+          src="assets/img/logo_wordmark_dark.png"
+          alt="DevMotion"
+          width="462"
+          height="50"
+        />
 
-    <div class="centered">
-        <img class="logo" src="assets/img/logo_cleanblue_dark_250.png">
-        <p class="powered-by">
-            Powered by <a href="https://constantin.al" target="_blank">Alexandru Constantin</a>
-        </p>
+        <p class="tagline reveal" style="--d: 0.5s">Development in motion.</p>
+
+        <a
+          class="visit reveal"
+          style="--d: 0.62s"
+          href="https://constantin.al"
+          rel="noopener"
+        >
+          <span class="who">by</span>
+          <span class="site">Alex Constantin</span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+      </main>
+
+      <footer class="baseline">
+        <span class="reveal" style="--d: 0.75s">© MMXXVI</span>
+        <span class="dim reveal" style="--d: 0.75s">made in Bucharest</span>
+      </footer>
     </div>
-
-</div>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151386928-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-151386928-1');
-</script>
-
-</body>
+  </body>
 </html>
